@@ -4,16 +4,16 @@
     path: "{{ backup_dir }}"
   register: dir_stat
   tags:
-   - deploy
-   - rollback
+    - deploy
+    - rollback
 
 - name: Show result if directory exists
   ansible.builtin.debug:
     msg: "Directory exists at {{ backup_dir }}"
   when: dir_stat.stat.exists and dir_stat.stat.isdir
   tags:
-   - deploy
-   - rollback
+    - deploy
+    - rollback
 
 - name: Ensure to create "{{ backup_dir }}" directory"
   ansible.builtin.file:
@@ -22,53 +22,53 @@
     mode: '0755'
   when: not dir_stat.stat.exists
   tags:
-   - deploy
-   - rollback
+    - deploy
+    - rollback
 
 - name: Get the hostname
   ansible.builtin.shell: hostname
   register: custom_hostname
   tags:
-   - deploy
-   - rollback
-   - deploy_uvt
-   - rollback_uvt
+    - deploy
+    - rollback
+    - deploy_uvt
+    - rollback_uvt
 
 - name: check existence of deployment before file
   ansible.builtin.stat:
     path: "{{ backup_dir }}/deploy_crontab_{{ custom_hostname.stdout }}_before.txt"
   register: deploy_before_stat
   tags:
-   - deploy
+    - deploy
 
 - name: check existence of deployment after file
   ansible.builtin.stat:
     path: "{{ backup_dir }}/deploy_crontab_{{ custom_hostname.stdout }}_after.txt"
   register: deploy_after_stat
   tags:
-   - deploy
+    - deploy
 
 - name: check existence of rollback before file
   ansible.builtin.stat:
     path: "{{ backup_dir }}/rollback_crontab_{{ custom_hostname.stdout }}_before.txt"
   register: rollback_before_stat
   tags:
-   - rollback
+    - rollback
 
 - name: check existence of rollback after file
   ansible.builtin.stat:
     path: "{{ backup_dir }}/rollback_crontab_{{ custom_hostname.stdout }}_after.txt"
   register: rollback_after_stat
   tags:
-   - rollback
+    - rollback
 
 - name: Run crontab -l and allow errors
   ansible.builtin.command: crontab -l
   register: crontab_output
   failed_when: false
   tags:
-   - deploy
-   - rollback
+    - deploy
+    - rollback
 
 - name: Save crontab output to file (even if empty) for before deployment
   ansible.builtin.copy:
@@ -77,7 +77,7 @@
     mode: '0644'
   when: not deploy_before_stat.stat.exists
   tags:
-   - deploy
+    - deploy
 
 - name: Failure message if saving crontab failed for before deployment file
   ansible.builtin.fail:
@@ -85,9 +85,9 @@
       Custom Error: Failed to save crontab output because the file
       {{ backup_dir }}/deploy_crontab_{{ custom_hostname.stdout }}_before.txt already exists.
   when:
-    - deploy_before_stat.stat.exists
+     - deploy_before_stat.stat.exists
   tags:
-    - deploy
+     - deploy
 
 - name: Save crontab output to file (even if empty) for before rollback
   ansible.builtin.copy:
@@ -96,7 +96,7 @@
     mode: '0644'
   when: not rollback_before_stat.stat.exists
   tags:
-   - rollback
+    - rollback
 
 - name: Failure message if saving crontab failed for before rollback file
   ansible.builtin.fail:
@@ -104,9 +104,9 @@
       Custom Error: Failed to save crontab output because the file
       {{ backup_dir }}/rollback_crontab_{{ custom_hostname.stdout }}_before.txt already exists.
   when:
-    - rollback_before_stat.stat.exists
+     - rollback_before_stat.stat.exists
   tags:
-    - rollback
+     - rollback
 
 - name: Creates a cron job
   ansible.builtin.cron:
@@ -121,7 +121,7 @@
     state: present
   when: not deploy_before_stat.stat.exists and not deploy_after_stat.stat.exists
   tags:
-   - deploy
+    - deploy
 
 - name: Removes a cron job
   ansible.builtin.cron:
@@ -136,15 +136,15 @@
     state: absent
   when: not rollback_before_stat.stat.exists and not rollback_after_stat.stat.exists
   tags:
-   - rollback
+    - rollback
 
 - name: Post Deployment Verification
   ansible.builtin.command: crontab -l
   register: cronjobafter
   ignore_errors: true
   tags:
-   - deploy
-   - rollback
+    - deploy
+    - rollback
 
 - name: Save crontab output to file (even if empty) for after deployment
   ansible.builtin.copy:
@@ -153,7 +153,7 @@
     mode: '0644'
   when: not deploy_after_stat.stat.exists
   tags:
-   - deploy
+    - deploy
 
 - name: Failure message if saving crontab failed for after deployment file
   ansible.builtin.fail:
@@ -161,9 +161,9 @@
       Custom Error: Failed to save crontab output because the file
       {{ backup_dir }}/deploy_crontab_{{ custom_hostname.stdout }}_after.txt already exists.
   when:
-    - deploy_after_stat.stat.exists
+     - deploy_after_stat.stat.exists
   tags:
-    - deploy
+     - deploy
 
 - name: Save crontab output to file (even if empty) for after rollback
   ansible.builtin.copy:
@@ -172,7 +172,7 @@
     mode: '0644'
   when: not rollback_after_stat.stat.exists
   tags:
-   - rollback
+    - rollback
 
 - name: Failure message if saving crontab failed for after rollback file
   ansible.builtin.fail:
@@ -180,9 +180,9 @@
       Custom Error: Failed to save crontab output because the file
       {{ backup_dir }}/rollback_crontab_{{ custom_hostname.stdout }}_after.txt already exists.
   when:
-    - rollback_after_stat.stat.exists
+     - rollback_after_stat.stat.exists
   tags:
-    - rollback
+     - rollback
 
 - name: sdiff backup deploy_crontab before and after
   ansible.builtin.shell: |
@@ -191,15 +191,15 @@
   register: deploy_sdiff_output
   ignore_errors: true
   tags:
-   - deploy
-   - deploy_uvt
+    - deploy
+    - deploy_uvt
 
 - name: Show sdiff output for deploy_crontab
   ansible.builtin.debug:
     var: "{{ deploy_sdiff_output.stdout_lines | join('\n') }}"
   tags:
-   - deploy
-   - deploy_uvt
+    - deploy
+    - deploy_uvt
 
 - name: sdiff backup rollback_crontab before and after
   ansible.builtin.shell: |
@@ -208,12 +208,12 @@
   register: rollback_sdiff_output
   ignore_errors: true
   tags:
-   - rollback
-   - rollback_uvt
+    - rollback
+    - rollback_uvt
 
 - name: Show sdiff output for rollback_crontab
   ansible.builtin.debug:
     var: "{{ rollback_sdiff_output.stdout_lines | join('\n') + '\n'  }}"
   tags:
-   - rollback
-   - rollback_uvt
+    - rollback
+    - rollback_uvt
