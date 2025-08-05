@@ -85,9 +85,9 @@
       Custom Error: Failed to save crontab output because the file
       {{ backup_dir }}/deploy_crontab_{{ custom_hostname.stdout }}_before.txt already exists.
   when:
-     - deploy_before_stat.stat.exists
+    - deploy_before_stat.stat.exists
   tags:
-     - deploy
+    - deploy
 
 - name: Save crontab output to file (even if empty) for before rollback
   ansible.builtin.copy:
@@ -104,9 +104,9 @@
       Custom Error: Failed to save crontab output because the file
       {{ backup_dir }}/rollback_crontab_{{ custom_hostname.stdout }}_before.txt already exists.
   when:
-     - rollback_before_stat.stat.exists
+    - rollback_before_stat.stat.exists
   tags:
-     - rollback
+    - rollback
 
 - name: Creates a cron job
   ansible.builtin.cron:
@@ -161,9 +161,9 @@
       Custom Error: Failed to save crontab output because the file
       {{ backup_dir }}/deploy_crontab_{{ custom_hostname.stdout }}_after.txt already exists.
   when:
-     - deploy_after_stat.stat.exists
+    - deploy_after_stat.stat.exists
   tags:
-     - deploy
+    - deploy
 
 - name: Save crontab output to file (even if empty) for after rollback
   ansible.builtin.copy:
@@ -180,9 +180,9 @@
       Custom Error: Failed to save crontab output because the file
       {{ backup_dir }}/rollback_crontab_{{ custom_hostname.stdout }}_after.txt already exists.
   when:
-     - rollback_after_stat.stat.exists
+    - rollback_after_stat.stat.exists
   tags:
-     - rollback
+    - rollback
 
 - name: sdiff backup deploy_crontab before and after
   ansible.builtin.shell: |
