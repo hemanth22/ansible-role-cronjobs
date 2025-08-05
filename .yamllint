@@ -1,0 +1,14 @@
+---
+extends: default
+
+rules:
+  line-length:
+    max: 200
+    level: warning
+
+skip_list:
+  - yaml[truthy]
+
+ignore: |
+  .github/workflows/ci.yaml
+  .github/workflows/release.yml

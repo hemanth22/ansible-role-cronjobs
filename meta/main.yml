@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  role_name: cronjobs
+  author: hemanth22
+  description: This role created to deploy and rollback the cronjob changes using rundeck
+  issue_tracker_url: https://github.com/hemanth22/ansible-role-cronjobs/issues
+  license: GPL-3.0-only
+  min_ansible_version: 2.1
+  min_ansible_container_version: "1.0"
+  platforms:
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+  galaxy_tags:
+    - cronjob
+    - deploy
+    - rundeck
+
+dependencies: []
