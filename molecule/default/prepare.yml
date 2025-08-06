@@ -7,6 +7,7 @@
       ansible.builtin.dnf:
         name: cronie
         state: present
+        use_backend: dnf4
 
     - name: Start and enable crond
       ansible.builtin.systemd:
