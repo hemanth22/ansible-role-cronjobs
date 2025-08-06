@@ -40,7 +40,6 @@ jobs:
       matrix:
         distro:
           - rockylinux9
-          - rockylinux8
 
     steps:
       - name: Check out the codebase.
