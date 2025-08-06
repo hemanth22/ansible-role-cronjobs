@@ -1,0 +1,14 @@
+- name: Install cronie dependencies
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Install dependencies from requirements.txt
+       ansible.builtin.dnf:
+        name: cronie
+        state: present
+
+    - name: Start and enable crond
+      ansible.builtin.systemd:
+        name: crond
+        state: started
+        enabled: true
