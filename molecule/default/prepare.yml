@@ -1,6 +1,7 @@
 ---
 - name: Install cronie dependencies
   hosts: localhost
+  become: true
   gather_facts: false
   tasks:
     - name: Install dependencies from requirements.txt
