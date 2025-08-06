@@ -1,6 +1,5 @@
 ---
-- name: cronjob deployer
-  hosts: localhost
+- hosts: localhost
   gather_facts: false
   become_user: "{{ CRON_USER }}"
   become: true
