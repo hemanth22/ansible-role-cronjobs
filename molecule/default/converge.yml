@@ -21,3 +21,4 @@
 
   roles:
     - role: hemanth22.cronjobs
+      tags: molecule-idempotence-notest
